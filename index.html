@@ -25,11 +25,8 @@
         <section id="features">
             <h2>Features</h2>
             <p>Key features of SouthStation:</p>
-            <ul>
-                <li>Feature 1: Real-time data updates</li>
-                <li>Feature 2: Multi-platform support</li>
-                <li>Feature 3: User-friendly interface</li>
-            </ul>
+            <div id="readme">Loading description...</div>
+
         </section>
 
         <!-- Latest Release Section -->
@@ -64,8 +61,30 @@
                 releaseInfo.innerHTML = "<p>No releases found.</p>";
             }
         }
+        async function fetchReadme() {
+            const defaultBranch = 'main'; // Ensure this is the correct branch name
+            const readmeUrl = `https://raw.githubusercontent.com/jacobcargen/SouthStation/${defaultBranch}/README.md`;
+            
+            try {
+                const response = await fetch(readmeUrl);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const text = await response.text();
+                const readme = document.getElementById('readme');
+                if (readme) {
+                    readme.innerHTML = '';  // Clear loading text
+                    readme.innerHTML = text;
+                } else {
+                    console.error('Element with id "readme" not found');
+                }
+            } catch (error) {
+                console.error('Failed to fetch README:', error);
+            }
+        }
 
         fetchLatestRelease();
+        fetchReadme();
     </script>
 </body>
 </html>
