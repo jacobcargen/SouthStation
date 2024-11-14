@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SouthStation - Home</title>
+    <link rel="stylesheet" href="https://jacobcargen.github.io/styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <h1>SouthStation</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="downloads.html">Downloads</a></li>
+                <li><a href="https://github.com/jacobcargen/SouthStation" target="_blank">GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Features Section -->
+        <section id="features">
+            <h2>Features</h2>
+            <p>Key features of SouthStation:</p>
+            <ul>
+                <li>Feature 1: Real-time data updates</li>
+                <li>Feature 2: Multi-platform support</li>
+                <li>Feature 3: User-friendly interface</li>
+            </ul>
+        </section>
+
+        <!-- Latest Release Section -->
+        <section id="latest-release">
+            <h2>Latest Release</h2>
+            <div id="release-info">Loading latest release...</div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 SouthStation. All rights reserved.</p>
+    </footer>
+
+    <!-- Script to Fetch Latest GitHub Release -->
+    <script>
+        async function fetchLatestRelease() {
+            const response = await fetch('https://api.github.com/repos/jacobcargen/SouthStation/releases');
+            const releases = await response.json();
+            const latestRelease = releases[0];
+            const releaseInfo = document.getElementById('release-info');
+            
+            if (latestRelease) {
+                const shortChangelog = latestRelease.body ? latestRelease.body.split('\n')[0] : "No details available.";
+                releaseInfo.innerHTML = `
+                    <h3><a href="${latestRelease.html_url}" target="_blank">${latestRelease.name}</a></h3>
+                    <p>Release Date: ${latestRelease.published_at.split('T')[0]}</p>
+                    <p>${shortChangelog}</p>
+                    <p><a href="${latestRelease.html_url}" target="_blank">Full Changelog</a></p>
+                `;
+            } else {
+                releaseInfo.innerHTML = "<p>No releases found.</p>";
+            }
+        }
+
+        fetchLatestRelease();
+    </script>
+</body>
+</html>
+

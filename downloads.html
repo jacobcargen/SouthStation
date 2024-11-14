@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SouthStation - Downloads</title>
+    <link rel="stylesheet" href="https://jacobcargen.github.io/styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <h1>SouthStation</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="downloads.html">Downloads</a></li>
+                <li><a href="https://github.com/jacobcargen/SouthStation" target="_blank">GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section id="downloads">
+            <h2>Download SouthStation Versions</h2>
+            <ul id="download-list">Loading downloads...</ul>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 SouthStation. All rights reserved.</p>
+    </footer>
+
+    <!-- Script to Fetch GitHub Releases for Downloads -->
+    <script>
+        async function fetchDownloads() {
+            const response = await fetch('https://api.github.com/repos/jacobcargen/SouthStation/releases');
+            const releases = await response.json();
+            const downloadList = document.getElementById('download-list');
+            downloadList.innerHTML = '';  // Clear loading text
+
+            releases.forEach(release => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong><a href="${release.html_url}" target="_blank">${release.name}</a></strong> - ${release.published_at.split('T')[0]}`;
+                downloadList.appendChild(listItem);
+            });
+        }
+
+        fetchDownloads();
+    </script>
+</body>
+</html>
+
